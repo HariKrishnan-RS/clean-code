@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\V1\postController;
+use App\Http\Controllers\postController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DraftController;
 use App\Http\Controllers\IndexController;
