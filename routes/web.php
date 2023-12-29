@@ -1,15 +1,15 @@
 <?php
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\V1\postController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DraftController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PageController;
-use \App\Http\Middleware\RedirectIfNotAuthenticated;
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\postController;
-use \App\Http\Controllers\IndexController;
+use App\Http\Controllers\PageController;
+use App\Http\Middleware\RedirectIfNotAuthenticated;
+use Illuminate\Support\Facades\Route;
+
 
 Route::get('blogs',[IndexController::class,'index'])->name('blog.index');
 Route::post('blogs', [LogoutController::class,'update'])->name('blog.update');

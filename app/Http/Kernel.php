@@ -66,10 +66,12 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
     ];
 
     protected $routeMiddleware = [
  
     'auth.redirect' => \App\Http\Middleware\RedirectIfNotAuthenticated::class,
+        'auth.jwt' => \Tymon\JWTAuth\Http\Middleware\Check::class
 ];
 }

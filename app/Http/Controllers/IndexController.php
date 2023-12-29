@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
-    //
+
     public function index( request $request ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $tags = Tag::all();
@@ -26,9 +26,7 @@ class IndexController extends Controller
         }
         else
         {
-//            dispatch(new mail());
-            \Illuminate\Support\Facades\Mail::to("harikrishnan.radhakrishnan@qburst.com")->queue(new NewPostNotification());
-//            mail::dispatch()->onQueue('database');
+//            \Illuminate\Support\Facades\Mail::to("harikrishnan.radhakrishnan@qburst.com")->queue(new NewPostNotification());
             $posts = Post::where('title', 'like', "%$request->searchbox%")->get();
             return view("blog",['posts' => $posts,'tags'=>$tags]);
         }

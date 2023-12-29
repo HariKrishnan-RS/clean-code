@@ -25,7 +25,7 @@ class postController extends Controller
 
     public function show(Request $request, $id = null )
     {
-
+//dd($request);
         if( $request->has('create') )
         {
             $tags = Tag::all();
@@ -65,7 +65,7 @@ class postController extends Controller
             $post->approved = true;
             $post->save();
             $userEmail = "harikrishnan.radhakrishnan@qburst.com";
-            Mail::to($userEmail)->send(new conformNotification());
+            Mail::to($userEmail)->queue(new conformNotification());
             return redirect()->route('pending.show')->with('approve', 'success fully approved');
         }
         return redirect()->back();
@@ -113,7 +113,7 @@ class postController extends Controller
                         $tagjoin->save();
                     }
                     $userEmail = "harikrishnan.radhakrishnan@qburst.com";
-                    Mail::to($userEmail)->send(new NewPostNotification());
+                    Mail::to($userEmail)->queue(new NewPostNotification());
                 }
 
                 if( $request->has('asDraft'))
