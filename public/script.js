@@ -69,6 +69,7 @@ function loadSelectedTags() {
     }
 }
 
+
 window.addEventListener('load', function() {
     loadSelectedTags();
 });
@@ -76,3 +77,90 @@ document.getElementById('searchButton').addEventListener('click', function() {
     saveSelectedTags();
 });
 
+
+function decodeToken(token) {
+    const base64Url = token.split('.')[1]; // Extract the payload part of the JWT
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Fix URL encoding
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join('')); // Decode base64 and parse JSON
+
+    return JSON.parse(jsonPayload); // Return the decoded payload as a JavaScript object
+}
+
+// Replace with your actual JWT token
+// const decodedToken = decodeToken(localStorage.getItem('jwtToken'));
+
+
+
+
+
+$(document).ready(function() {
+    $('.readbtn').click(function(e) {
+        e.preventDefault();
+        console.log("read button");
+        // debugger;
+        var jwtToken = localStorage.getItem('jwtToken');
+        if(jwtToken){
+            $.ajax({
+                url: 'http://localhost:8080/api/v1/blog/7',
+                method: 'GET',
+                    headers: {"Authorization": "Bearer "+localStorage.getItem('jwtToken')},
+                success: function(response) {
+                    window.open().document.write(response);
+                },
+                error: function(error) {
+                    console.error('Error making GET request:', error);
+                }
+            });
+        }
+        else {
+            $.ajax({
+                href: 'http://localhost:8080/api/v1/login',
+                method: 'GET',
+                success: function(response) {
+                    window.open('http://localhost:8080/api/v1/login');
+                },
+                error: function(error) {
+                    console.error('Error making GET request:', error);
+                }
+            });
+
+        }
+
+    });
+
+    if(localStorage.getItem('jwtToken')) {
+        let decodedToken =  decodeToken(localStorage.getItem('jwtToken'));
+        if (decodedToken && decodedToken.role === 'admin') {
+            $('#welcomeMessage').text('Welcome Admin!');
+        } else if (decodedToken && decodedToken.role === 'editor') { debugger;
+            $('#welcomeMessage').text('Welcome Editor!');
+        } else if (decodedToken) {
+            $('#welcomeMessage').text('Welcome User: ' + decodedToken.name);
+        } else {
+            $('#welcomeMessage').text('Welcome Guest!');
+        }
+    }
+
+
+});
+
+// $(document).ready(function() {
+//     $(document).on('click', '#remember', function(e) {
+//         e.preventDefault();
+//         debugger;
+//         console.log("Reached here");
+//         // Your AJAX code or any other functionality
+//     });
+// });
+
+
+
+// var token = response.token;
+// if (token) {
+//     localStorage.setItem('jwtToken', token);
+//     console.log('JWT token saved to local storage:', token);
+// } else {
+//     console.error('No token found in the response.');
+// }

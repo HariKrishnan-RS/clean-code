@@ -5,6 +5,8 @@
 
   <x-common.blog-head-image />
 
+  <div class="alert alert-primary mt-1" role="alert" id="welcomeMessage"></div>
+
   <x-common.welcome-message />
 
   <x-common.session-alert key="draftMsg" type="danger" />
@@ -23,6 +25,11 @@
 
   <x-form.logout-button />
   @endauth
+
+  @if(auth())
+    asdasd
+  @endif
+
 
 @endsection
 
